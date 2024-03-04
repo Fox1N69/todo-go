@@ -5,6 +5,8 @@ import (
 )
 
 func (h *Handler) SingUp(c echo.Context) error {
+	
+
 	return nil
 }
 

@@ -10,8 +10,6 @@ type Handler struct {
 func (h *Handler) InitRouter() *echo.Echo {
 	e := echo.New()
 
-	e.GET("/", h.Hello)
-
 	auth := e.Group("/auth")
 	{
 		auth.POST("/sing-up", h.SingUp)
