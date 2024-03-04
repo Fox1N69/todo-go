@@ -14,7 +14,7 @@ import (
 func main() {
 	log := logrus.New()
 
-	database.ConnectioDB()
+	database.InitDB()
 
 	srv := new(rest.Server)
 	handlers := new(handler.Handler)
