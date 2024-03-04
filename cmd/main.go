@@ -4,6 +4,7 @@ import (
 	"context"
 	"os"
 	"rest"
+	"rest/database"
 	"rest/pkg/handler"
 
 	"github.com/joho/godotenv"
@@ -11,9 +12,12 @@ import (
 )
 
 func main() {
+	log := logrus.New()
+
+	database.ConnectioDB()
+
 	srv := new(rest.Server)
 	handlers := new(handler.Handler)
-	log := logrus.New()
 
 	if err := godotenv.Load(".env"); err != nil {
 		panic(err)
