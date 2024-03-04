@@ -18,9 +18,13 @@ func (h *Handler) InitRouter() *echo.Echo {
 		auth.POST("/sing-in", h.SingIn)
 	}
 
-	list := e.Group("/list")
+	post := e.Group("/posts")
 	{
-		list.GET("/", h.GetAllList)
+		post.GET("/", h.getAllPosts)
+		post.POST("/", nil)
+		post.PUT("/update", h.updatePosts)
+		post.DELETE("/delete", h.deletePosts)
+		
 	}
 
 	return e

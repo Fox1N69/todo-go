@@ -9,9 +9,9 @@ import (
 
 func main() {
 	srv := new(rest.Server)
-	handler := new(handler.Handler)
+	handlers := new(handler.Handler)
 
-	if err := srv.Run("8000", handler.InitRouter()); err != nil {
-		log.Fatal(err)
-	}
+
+	log.Println("Server start on port 4000")
+	log.Fatal(srv.Run("4000", handlers.InitRouter()))
 }
