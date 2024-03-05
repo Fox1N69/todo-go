@@ -17,9 +17,8 @@ func InitGormDB() *gorm.DB {
 	if err := godotenv.Load(filepath.Join("../", ".env")); err != nil {
 		logrus.Fatal("Gorm.io database", err)
 	}
-	dsn := os.Getenv("DSN")
 
-	DB, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	DB, err := gorm.Open(postgres.Open(os.Getenv("DSN")), &gorm.Config{})
 	if err != nil {
 		logrus.Fatal(err)
 	}
