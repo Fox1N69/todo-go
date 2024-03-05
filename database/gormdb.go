@@ -14,7 +14,7 @@ import (
 var DB *gorm.DB
 
 func InitGormDB() *gorm.DB {
-	if err := godotenv.Load(filepath.Join(".env")); err != nil {
+	if err := godotenv.Load(filepath.Join("../", ".env")); err != nil {
 		logrus.Fatal("Gorm.io database", err)
 	}
 	dsn := os.Getenv("DSN")

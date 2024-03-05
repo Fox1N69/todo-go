@@ -18,7 +18,7 @@ func main() {
 	srv := new(rest.Server)
 	handlers := new(handler.Handler)
 
-	if err := godotenv.Load(filepath.Join(".env")); err != nil {
+	if err := godotenv.Load(filepath.Join("../",".env")); err != nil {
 		log.Fatal(err)
 	}
 	port := os.Getenv("PORT")
