@@ -18,13 +18,13 @@ func InitGormDB() *gorm.DB {
 	}
 	logrus.Println("Database connect...")
 
-	if err := DB.AutoMigrate(&models.Users{}); err != nil {
+	if err := DB.AutoMigrate(&models.Users{}, &models.Posts{}); err != nil {
 		logrus.Error("AutoMigrate not working")
 	} else {
 		logrus.Println("Database migrate!")
 	}
-	
 
+	
 
 	return DB
 }
