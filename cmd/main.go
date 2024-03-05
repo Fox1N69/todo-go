@@ -9,12 +9,10 @@ import (
 	"rest/pkg/handler"
 
 	"github.com/joho/godotenv"
-	"github.com/sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 )
 
 func main() {
-	log := logrus.New()
-
 	database.InitGormDB()
 
 	srv := new(rest.Server)

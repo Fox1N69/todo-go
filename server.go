@@ -5,11 +5,14 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/sirupsen/logrus"
 )
 
 type Server struct {
 	httpServer *http.Server
 }
+
+var log = logrus.New()
 
 func (s *Server) Run(port string, handler http.Handler) error {
 	s.httpServer = &http.Server{
