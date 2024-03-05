@@ -6,6 +6,9 @@ import (
 )
 
 func (h *Handler) SingUp(c echo.Context) error {
+	data := make(map[int]string)
+
+
 	return nil
 }
 
