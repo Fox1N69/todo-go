@@ -1,8 +1,11 @@
 package database
 
 import (
+	"os"
+	"path/filepath"
 	"rest/models"
 
+	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -11,7 +14,11 @@ import (
 var DB *gorm.DB
 
 func InitGormDB() *gorm.DB {
-	dsn := "user=postgres password=8008 dbname=sitesb port=5432 sslmode=disable"
+	if err := godotenv.Load(filepath.Join(".env")); err != nil {
+		logrus.Fatal("Gorm.io database", err)
+	}
+	dsn := os.Getenv("DSN")
+
 	DB, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		logrus.Fatal(err)
