@@ -3,9 +3,10 @@ package main
 import (
 	"context"
 	"os"
+	"path/filepath"
 	"rest"
-	"rest/pkg/handler"
 	"rest/database"
+	"rest/pkg/handler"
 
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
@@ -19,8 +20,8 @@ func main() {
 	srv := new(rest.Server)
 	handlers := new(handler.Handler)
 
-	if err := godotenv.Load(".env"); err != nil {
-		panic(err)
+	if err := godotenv.Load(filepath.Join(".env")); err != nil {
+		log.Fatal(err)
 	}
 	port := os.Getenv("PORT")
 

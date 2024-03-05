@@ -24,7 +24,5 @@ func InitGormDB() *gorm.DB {
 		logrus.Println("Database migrate!")
 	}
 
-	
-
 	return DB
 }
