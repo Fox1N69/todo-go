@@ -4,8 +4,8 @@ import (
 	"context"
 	"os"
 	"rest"
-	"rest/database"
 	"rest/pkg/handler"
+	"rest/database"
 
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
