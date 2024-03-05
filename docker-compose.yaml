@@ -1,0 +1,13 @@
+services:
+  server:
+    build:
+      context: .
+      target: final
+    ports:
+      - 4000:4000
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: fox1n
+      POSTGRES_PASSWORD: 8008
+      POSTGRES_DB: sitesb
