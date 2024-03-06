@@ -9,23 +9,14 @@ import (
 )
 
 func (h *Handler) getAllPosts(c echo.Context) error {
-	var data map[string]string
+	var posts []models.Posts
+	database.DB.Find(&posts)
 
-	if err := c.Bind(&data); err != nil {
-		log.Fatal(err)
-	}
-
-	posts := models.Posts{
-		Title:       data["title"],
-		Description: data["description"],
-		PostBody:    data["postbody"],
-	}
-
-	return c.JSON(200, &posts)
+	return c.JSON(200, posts)
 }
 
 func (h *Handler) setPost(c echo.Context) error {
-	
+
 	data := new(models.Posts)
 
 	if err := c.Bind(data); err != nil {

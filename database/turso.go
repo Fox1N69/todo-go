@@ -1,4 +1,5 @@
 package database
+/*
 
 import (
 	"database/sql"
@@ -28,3 +29,4 @@ func InitDB() {
 
 	defer db.Close()
 }
+*/

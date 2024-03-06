@@ -3,6 +3,7 @@ package rest
 import (
 	"context"
 	"net/http"
+	"rest/database"
 	"time"
 
 	"github.com/sirupsen/logrus"
@@ -22,6 +23,7 @@ func (s *Server) Run(port string, handler http.Handler) error {
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,
 	}
+	database.InitGormDB()
 
 
 	return s.httpServer.ListenAndServe()
