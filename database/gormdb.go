@@ -4,6 +4,7 @@ import (
 	"os"
 	"path/filepath"
 	"rest/models"
+	"time"
 
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
@@ -28,6 +29,21 @@ func InitGormDB() *gorm.DB {
 		logrus.Error("AutoMigrate not working")
 	} else {
 		logrus.Println("Database migrate!")
+	}
+
+	return DB
+}
+
+func GetDB() *gorm.DB {
+	if DB == nil {
+		DB = InitGormDB()
+		var sleep = time.Duration(1)
+		for DB == nil {
+			sleep = sleep * 2
+			logrus.Println("Database is unavaibl. Wait for %d sec.\n")
+			time.Sleep(sleep * time.Second)
+			DB = InitGormDB()
+		}
 	}
 
 	return DB

@@ -16,7 +16,6 @@ func (h *Handler) SingUp(c echo.Context) error {
 
 	//password, _ := bcrypt.GenerateFromPassword([]byte(data["passwordl"]), 14)
 
-
 	user := models.Users{
 		Username: data["username"],
 		Password: controller.HashPassword(data),
