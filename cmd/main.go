@@ -7,25 +7,21 @@ import (
 	"rest/database"
 	"rest/pkg/handler"
 
-	"github.com/joho/godotenv"
 	log "github.com/sirupsen/logrus"
+	"github.com/joho/godotenv"
 )
+
 
 func main() {
 	database.InitGormDB()
-
 	srv := new(rest.Server)
 	handlers := new(handler.Handler)
 
-
-	if err := godotenv.Load(); err != nil {
-		panic(err)
+	if err := godotenv.Load("../.env"); err != nil {
+		log.Fatal(err)
 	}
-	port := os.Getenv("PORT")
 
-	log.Infoln("Server start on" + " " + "http://localhost:" + port)
-	log.Fatal(srv.Run(port, handlers.InitRouter()))
+	log.Infoln("Server start on" + " " + "http://localhost:" + os.Getenv("PORT"))
+	log.Fatal(srv.Run(os.Getenv("PORT"), handlers.InitRouter()))
 	log.Fatal(srv.Shutdown(context.Background()))
 }
-
-
