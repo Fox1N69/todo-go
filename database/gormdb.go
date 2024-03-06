@@ -1,8 +1,8 @@
 package database
 
 import (
+	"log"
 	"os"
-	"path/filepath"
 	"rest/models"
 	"time"
 
@@ -15,11 +15,12 @@ import (
 var DB *gorm.DB
 
 func InitGormDB() *gorm.DB {
-	if err := godotenv.Load(filepath.Join(".env")); err != nil {
-		logrus.Fatal("Gorm.io database", err)
+	if err := godotenv.Load(); err != nil {
+		log.Fatal(err)
 	}
+	DSN := os.Getenv("DSN")
 
-	DB, err := gorm.Open(postgres.Open(os.Getenv("DSN")), &gorm.Config{})
+	DB, err := gorm.Open(postgres.Open(DSN), &gorm.Config{})
 	if err != nil {
 		logrus.Fatal(err)
 	}

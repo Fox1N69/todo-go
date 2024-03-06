@@ -6,24 +6,24 @@ import (
 
 	"github.com/labstack/echo/v4"
 	log "github.com/sirupsen/logrus"
-	"golang.org/x/crypto/bcrypt"
+	//`"golang.org/x/crypto/bcrypt"
 )
 
 func (h *Handler) SingUp(c echo.Context) error {
 	var data map[string]string
 
-	log.Fatal(c.Bind(&data))
-
-	password, _ := bcrypt.GenerateFromPassword([]byte(data["passwordl"]), 14)
-
-	user := models.Users{
-		Username: data["username"],
-		Password: password,
+	if err := c.Bind(&data); err != nil {
+		log.Fatal(err)
 	}
 
-	database.DB.Create(&user)
+	newUser := models.Users {
+		Username: data["username"],
+		Password: []byte(data["password"]),
+	}
 
-	return c.JSON(200, user)
+	database.DB.Create(&newUser)
+
+	return c.JSON(200, newUser)
 }
 
 func (h *Handler) SingIn(c echo.Context) error {
