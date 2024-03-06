@@ -1,35 +1,34 @@
 package database
 
 import (
-	"log"
 	"os"
 	"rest/models"
 	"time"
 
 	"github.com/joho/godotenv"
-	"github.com/sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 var DB *gorm.DB
+var DSN = "user=postgres password=8008 dbname=sitesb port=5432 sslmode=disable"
 
 func InitGormDB() *gorm.DB {
-	if err := godotenv.Load(); err != nil {
+	if err := godotenv.Load("../.env"); err != nil {
 		log.Fatal(err)
 	}
-	DSN := os.Getenv("DSN")
 
-	DB, err := gorm.Open(postgres.Open(DSN), &gorm.Config{})
+	DB, err := gorm.Open(postgres.Open(os.Getenv("DSN")), &gorm.Config{})
 	if err != nil {
-		logrus.Fatal(err)
+		log.Fatal(err)
 	}
-	logrus.Println("Database connect...")
+	log.Println("Database connect...")
 
 	if err := DB.AutoMigrate(&models.Users{}, &models.Posts{}); err != nil {
-		logrus.Error("AutoMigrate not working")
+		log.Error("AutoMigrate not working")
 	} else {
-		logrus.Println("Database migrate!")
+		log.Println("Database migrate!")
 	}
 
 	return DB
@@ -41,7 +40,7 @@ func GetDB() *gorm.DB {
 		var sleep = time.Duration(1)
 		for DB == nil {
 			sleep = sleep * 2
-			logrus.Println("Database is unavaibl. Wait for %d sec.\n")
+			log.Println("Database is unavaibl. Wait for %d sec.\n")
 			time.Sleep(sleep * time.Second)
 			DB = InitGormDB()
 		}
