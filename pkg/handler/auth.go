@@ -27,5 +27,9 @@ func (h *Handler) SingUp(c echo.Context) error {
 }
 
 func (h *Handler) SingIn(c echo.Context) error {
+	var data map[string]string
+
+	log.Fatal(c.Bind(&data))
+
 	return nil
 }
