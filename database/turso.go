@@ -18,6 +18,8 @@ type Users struct {
 }
 
 func InitDB() {
+	sdf
+
 	url := "libsql://site-sb-fox1n69.turso.io?authToken=AToken"
 
 	db, err := sql.Open("libsql", url)
