@@ -13,7 +13,6 @@ func (h *Handler) getAllPosts(c echo.Context) error {
 	var posts []models.Posts
 	database.DB.Find(&posts)
 
-	
 	data, err := json.Marshal(posts)
 	if err != nil {
 		panic(err)
@@ -32,7 +31,7 @@ func (h *Handler) setPost(c echo.Context) error {
 		log.Fatal(err)
 	}
 
-	database.DB.Create(data)
+	database.DB.Create(&data)
 
 	return c.JSON(201, data)
 }
