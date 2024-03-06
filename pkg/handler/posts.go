@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"rest/database"
 	"rest/models"
 
 	"github.com/labstack/echo/v4"
@@ -15,12 +16,25 @@ func (h *Handler) getAllPosts(c echo.Context) error {
 	}
 
 	posts := models.Posts{
-		Title: data["title"],
+		Title:       data["title"],
 		Description: data["description"],
-		Postbody: data["postbody"],
+		PostBody:    data["postbody"],
 	}
 
 	return c.JSON(200, &posts)
+}
+
+func (h *Handler) setPost(c echo.Context) error {
+	
+	data := new(models.Posts)
+
+	if err := c.Bind(data); err != nil {
+		log.Fatal(err)
+	}
+
+	database.DB.Create(data)
+
+	return c.JSON(201, data)
 }
 
 func (h *Handler) updatePosts(c echo.Context) error {
@@ -30,5 +44,3 @@ func (h *Handler) updatePosts(c echo.Context) error {
 func (h *Handler) deletePosts(c echo.Context) error {
 	return nil
 }
-
-

@@ -1,7 +1,6 @@
 package database
 
 import (
-	"os"
 	"rest/models"
 	"time"
 
@@ -19,17 +18,14 @@ func InitGormDB() *gorm.DB {
 		log.Fatal(err)
 	}
 
-	DB, err := gorm.Open(postgres.Open(os.Getenv("DSN")), &gorm.Config{})
+	DB, err := gorm.Open(postgres.Open(DSN), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)
 	}
 	log.Println("Database connect...")
 
-	if err := DB.AutoMigrate(&models.Users{}, &models.Posts{}); err != nil {
-		log.Error("AutoMigrate not working")
-	} else {
-		log.Println("Database migrate!")
-	}
+	DB.AutoMigrate(&models.Posts{})
+	DB.AutoMigrate(&models.Users{})
 
 	return DB
 }

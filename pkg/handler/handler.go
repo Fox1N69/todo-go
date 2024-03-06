@@ -25,7 +25,7 @@ func (h *Handler) InitRouter() *echo.Echo {
 	post := e.Group("/posts")
 	{
 		post.GET("/", h.getAllPosts)
-		post.POST("/", nil)
+		post.POST("/set", h.setPost)
 		post.PUT("/update", h.updatePosts)
 		post.DELETE("/delete", h.deletePosts)
 
