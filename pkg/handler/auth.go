@@ -10,20 +10,15 @@ import (
 )
 
 func (h *Handler) SingUp(c echo.Context) error {
-	var data map[string]string
+	var data models.Users
 
 	if err := c.Bind(&data); err != nil {
-		log.Fatal(err)
+		c.JSON(400, err)
 	}
 
-	newUser := models.Users {
-		Username: data["username"],
-		Password: []byte(data["password"]),
-	}
+	database.DB.Create(&data)
 
-	database.DB.Create(&newUser)
-
-	return c.JSON(200, newUser)
+	return c.JSON(200, data)
 }
 
 func (h *Handler) SingIn(c echo.Context) error {

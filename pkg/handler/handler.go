@@ -5,6 +5,7 @@ import (
 )
 
 type Handler struct {
+	
 }
 
 func (h *Handler) InitRouter() *echo.Echo {
@@ -27,7 +28,7 @@ func (h *Handler) InitRouter() *echo.Echo {
 		post.POST("/", nil)
 		post.PUT("/update", h.updatePosts)
 		post.DELETE("/delete", h.deletePosts)
-		
+
 	}
 
 	return e
