@@ -4,7 +4,6 @@ import (
 	"context"
 	"os"
 	"rest"
-	"rest/database"
 	"rest/pkg/handler"
 
 	log "github.com/sirupsen/logrus"
@@ -13,7 +12,6 @@ import (
 
 
 func main() {
-	database.InitGormDB()
 	srv := new(rest.Server)
 	handlers := new(handler.Handler)
 
