@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"encoding/json"
 	"rest/database"
 	"rest/models"
 
@@ -12,7 +13,15 @@ func (h *Handler) getAllPosts(c echo.Context) error {
 	var posts []models.Posts
 	database.DB.Find(&posts)
 
-	return c.JSON(200, posts)
+	
+	data, err := json.Marshal(posts)
+	if err != nil {
+		panic(err)
+	}
+
+	jsonString := string(data)
+
+	return c.String(200, jsonString)
 }
 
 func (h *Handler) setPost(c echo.Context) error {
