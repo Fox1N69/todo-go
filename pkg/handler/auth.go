@@ -38,15 +38,17 @@ func (h *Handler) SingUp(c echo.Context) error {
 func (h *Handler) SingIn(c echo.Context) error {
 	var data map[string]string
 
+
 	if err := c.Bind(&data); err != nil {
 		return c.JSON(400, err)
 	}
 
 	var user models.Users
 
-	if err := database.DB.Where("username = ?", data["username"]).First(&user); err != nil {
+	if err := database.DB.Where("Username = ?", data["Username"]).First(&user); err != nil {
 		return c.JSON(http.StatusBadRequest, "user not found")
 	}
+
 
 	if err := bcrypt.CompareHashAndPassword(user.Password, []byte(data["password"])); err != nil {
 		return c.JSON(http.StatusBadRequest, "incorrect password")
@@ -62,14 +64,14 @@ func (h *Handler) SingIn(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, "could not generate token")
 	}
 
-	cookie := &http.Cookie{
+	cookie := http.Cookie{
 		Name:     "jwt",
 		Value:    token,
 		Expires:  time.Now().Add(time.Hour * 24),
 		HttpOnly: true,
 	}
 
-	c.SetCookie(cookie)
+	c.SetCookie(&cookie)
 
 	return c.JSON(200, "success")
 }
