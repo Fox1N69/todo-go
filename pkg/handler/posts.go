@@ -15,7 +15,7 @@ func (h *Handler) getAllPosts(c echo.Context) error {
 
 	data, err := json.Marshal(posts)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	jsonString := string(data)
