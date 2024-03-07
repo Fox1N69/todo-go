@@ -10,11 +10,13 @@ import (
 )
 
 func (h *Handler) SingUp(c echo.Context) error {
-	var data models.Users
+	data := new(models.Users)
 
 	if err := c.Bind(&data); err != nil {
 		c.JSON(400, err)
 	}
+
+	password, _ := bcrypt
 
 	database.DB.Create(&data)
 
