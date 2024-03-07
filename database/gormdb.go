@@ -25,6 +25,7 @@ func InitGormDB() *gorm.DB {
 	log.Println("Database connect...")
 
 	DB.AutoMigrate(&models.Posts{})
+	DB.AutoMigrate(&models.Users{})
 
 	return DB
 }
