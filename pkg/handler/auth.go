@@ -36,23 +36,24 @@ func (h *Handler) SingUp(c echo.Context) error {
 }
 
 func (h *Handler) SingIn(c echo.Context) error {
-	var data = new(models.Users)
+	var data map[string]string
 
 	if err := c.Bind(&data); err != nil {
 		return c.JSON(400, err)
 	}
 
-	if err := database.DB.Where("username = ?", data.Username).First(&data); err != nil {
+	var user models.Users
+
+	if err := database.DB.Where("username = ?", data["username"]).First(&user); err != nil {
 		return c.JSON(http.StatusBadRequest, "user not found")
 	}
 
-
-	if err := bcrypt.CompareHashAndPassword(data.Password, []byte(data.Password)); err != nil {
+	if err := bcrypt.CompareHashAndPassword(user.Password, []byte(data["password"])); err != nil {
 		return c.JSON(http.StatusBadRequest, "incorrect password")
 	}
 
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"iss": strconv.Itoa(int(data.ID)),
+		"iss": strconv.Itoa(int(user.ID)),
 		"exp": time.Now().Add(time.Hour * 24).Unix(), //частота обновления токена
 	})
 
