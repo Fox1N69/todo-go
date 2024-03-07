@@ -46,6 +46,8 @@ func (h *Handler) SingIn(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, "user not found")
 	}
 
+	
+
 	if err := bcrypt.CompareHashAndPassword(data.Password, []byte(data.Password)); err != nil {
 		return c.JSON(http.StatusBadRequest, "incorrect password")
 	}
