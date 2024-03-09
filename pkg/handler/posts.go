@@ -38,7 +38,7 @@ func (h *Handler) setPost(c echo.Context) error {
 
 func (h *Handler) updatePosts(c echo.Context) error {
 	var data []models.Posts
-	id := c.Param("id")
+	id := c.Param("ID")
 
 	if err := database.DB.First(&data, id); err != nil {
 		log.Fatal("Error id receving ", err)
