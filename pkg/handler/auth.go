@@ -107,5 +107,5 @@ func (h *Handler) deleteUser(c echo.Context) error {
 		return c.JSON(400, "user not delete")
 	}
 
-	return c.JSON(200, "User delete")
+	return c.JSON(http.StatusOK, "User delete")
 }
