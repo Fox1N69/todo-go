@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"net/http"
 	"rest/database"
 	"rest/models"
 
@@ -40,8 +41,10 @@ func (h *Handler) updatePosts(c echo.Context) error {
 	var data models.Posts
 	id := c.Param("id")
 
-	if err := database.DB.First(&data, id); err != nil {
-		log.Fatal("Error id receving ", err)
+	if err := database.DB.First(&data, id).Error; err != nil {
+		log.Fatal("Error receiving data for ID: ", err)
+		c.String(http.StatusInternalServerError, "Error receiving data for ID")
+		return err
 	}
 
 	if err := c.Bind(&data); err != nil {
