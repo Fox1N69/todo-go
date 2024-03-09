@@ -27,7 +27,7 @@ func (h *Handler) setPost(c echo.Context) error {
 
 	data := new(models.Posts)
 
-	if err := c.Bind(data); err != nil {
+	if err := c.Bind(&data); err != nil {
 		log.Fatal(err)
 	}
 
@@ -37,6 +37,17 @@ func (h *Handler) setPost(c echo.Context) error {
 }
 
 func (h *Handler) updatePosts(c echo.Context) error {
+	var data []models.Posts
+	id := c.Param("id")
+
+	if err := database.DB.First(&data, id); err != nil {
+		log.Fatal("Error id receving ",err)
+	}
+
+	if err := c.Bind(&data); err != nil {
+		log.Fatal(err)
+	}
+
 	return nil
 }
 
