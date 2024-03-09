@@ -42,9 +42,7 @@ func (h *Handler) updatePosts(c echo.Context) error {
 	id := c.Param("id")
 
 	if err := database.DB.Where("id = ?", id).First(&data).Error; err != nil {
-		log.Fatal("Error receiving data for ID: ", err)
-		c.String(http.StatusInternalServerError, "Error receiving data for ID")
-		return err
+		return c.String(http.StatusInternalServerError, "Error receiving data for ID")
 	}
 
 	if err := c.Bind(&data); err != nil {
@@ -55,18 +53,24 @@ func (h *Handler) updatePosts(c echo.Context) error {
 		log.Fatal("Error save to database ", err)
 	}
 
-	return c.JSON(200, data)
+	return c.JSON(200, "Post seccessfully change")
 }
 
 func (h *Handler) deletePosts(c echo.Context) error {
 	var post models.Posts
 	id := c.Param("id")
 
-	if err := database.DB.Where("id = ?", id).First(&post); err != nil {
+	if err := database.DB.Where("id = ?", id).First(&post).Error; err != nil {
 		return c.JSON(http.StatusBadRequest, "post not found")
 	}
 
-	database.DB.Delete(&post)
+	if err := c.Bind(&post); err != nil {
+		return err
+	}
+
+	if err := database.DB.Delete(&post, id).Error; err != nil {
+		log.Fatal("Error delete to database ", err)
+	}
 
 	return c.String(http.StatusOK, "Post successfully deleted")
 }

@@ -28,7 +28,7 @@ func (h *Handler) InitRouter() *echo.Echo {
 		post.GET("/", h.getAllPosts)
 		post.POST("/set", h.setPost)
 		post.PUT("/update:id", h.updatePosts)
-		post.DELETE("/delete", h.deletePosts)
+		post.DELETE("/delete:id", h.deletePosts)
 
 	}
 
