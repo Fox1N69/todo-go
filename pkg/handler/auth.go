@@ -38,7 +38,6 @@ func (h *Handler) SingUp(c echo.Context) error {
 func (h *Handler) SingIn(c echo.Context) error {
 	var data map[string]string
 
-
 	if err := c.Bind(&data); err != nil {
 		return c.JSON(400, err)
 	}
@@ -48,7 +47,6 @@ func (h *Handler) SingIn(c echo.Context) error {
 	if err := database.DB.Where("Username = ?", data["Username"]).First(&user); err != nil {
 		return c.JSON(http.StatusBadRequest, "user not found")
 	}
-
 
 	if err := bcrypt.CompareHashAndPassword(user.Password, []byte(data["password"])); err != nil {
 		return c.JSON(http.StatusBadRequest, "incorrect password")
@@ -88,4 +86,26 @@ func (h *Handler) getAllUsers(c echo.Context) error {
 	jsonString := string(user)
 
 	return c.JSON(200, jsonString)
+}
+
+func (h *Handler) deleteUser(c echo.Context) error {
+	var user models.Users
+	id := c.Param("id")
+	if id == "" {
+		c.JSON(400, "ID empty")
+	}
+
+	if err := database.DB.Where("id = ?", id).First(&user).Error; err != nil {
+		return c.JSON(400, "user not found")
+	}
+
+	if err := c.Bind(&user); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := database.DB.Delete(&user, id).Error; err != nil {
+		return c.JSON(400, "user not delete")
+	}
+
+	return c.JSON(200, "User delete")
 }
