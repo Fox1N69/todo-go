@@ -59,14 +59,11 @@ func (h *Handler) updatePosts(c echo.Context) error {
 }
 
 func (h *Handler) deletePosts(c echo.Context) error {
+	var post models.Posts
 	id := c.Param("id")
 
-	var post models.Posts
-
-	result := database.DB.First(&post, id)
-
-	if result.Error != nil {
-		return result.Error
+	if err := database.DB.Where("id = ?", id).First(&post); err != nil {
+		return c.JSON(http.StatusBadRequest, "post not found")
 	}
 
 	database.DB.Delete(&post)
