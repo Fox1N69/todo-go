@@ -59,5 +59,20 @@ func (h *Handler) updatePosts(c echo.Context) error {
 }
 
 func (h *Handler) deletePosts(c echo.Context) error {
-	return nil
+	var data models.Posts
+	id := c.Param("id")
+
+	if err := database.DB.First(&data, id).Error; err != nil {
+		log.Fatal("Error recceving data for ID ", err)
+		c.String(http.StatusInternalServerError, "error receiving data for ID")
+		return err
+	}
+
+	if err := c.Bind(&data); err != nil {
+		return err
+	}
+
+	log.Fatal("Error delete data to databases",database.DB.Delete(&data).Error)
+
+	return c.JSON(200, data)
 }
