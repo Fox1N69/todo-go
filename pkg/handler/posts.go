@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 	"rest/database"
 	"rest/models"
@@ -59,8 +60,12 @@ func (h *Handler) updatePosts(c echo.Context) error {
 }
 
 func (h *Handler) deletePosts(c echo.Context) error {
-	var data models.Posts
 	id := c.Param("id")
+	if id == "" {
+		return errors.New("ID is empty")
+	}
+
+	var data models.Posts
 
 	if err := database.DB.Where("id = ?", id).First(&data).Error; err != nil {
 		log.Fatal("Error recceving data for ID ", err)
