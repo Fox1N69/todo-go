@@ -2,7 +2,6 @@ package handler
 
 import (
 	"encoding/json"
-	"errors"
 	"net/http"
 	"rest/database"
 	"rest/models"
@@ -61,21 +60,16 @@ func (h *Handler) updatePosts(c echo.Context) error {
 
 func (h *Handler) deletePosts(c echo.Context) error {
 	id := c.Param("id")
-	if id == "" {
-		return errors.New("ID is empty")
+
+	var post models.Posts
+
+	result := database.DB.First(&post, id)
+
+	if result.Error != nil {
+		return result.Error
 	}
 
-	var data models.Posts
+	database.DB.Delete(&post)
 
-	if err := database.DB.Where("id = ?", id).First(&data).Error; err != nil {
-		log.Fatal("Error recceving data for ID ", err)
-		c.String(http.StatusInternalServerError, "error receiving data for ID")
-		return err
-	}
-
-	if err := database.DB.Delete(&data).Error; err != nil {
-		return err
-	}
-
-	return c.String(http.StatusOK, "User successfully deleted")
+	return c.String(http.StatusOK, "Post successfully deleted")
 }

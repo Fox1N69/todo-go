@@ -27,6 +27,8 @@ func InitGormDB() *gorm.DB {
 	DB.AutoMigrate(&models.Posts{})
 	DB.AutoMigrate(&models.Users{})
 
+	DB.Exec("ALTER SEQUENCE <имя_последовательности> RESTART WITH 1")
+
 	return DB
 }
 
