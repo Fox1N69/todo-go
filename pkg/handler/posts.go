@@ -41,14 +41,18 @@ func (h *Handler) updatePosts(c echo.Context) error {
 	id := c.Param("id")
 
 	if err := database.DB.First(&data, id); err != nil {
-		log.Fatal("Error id receving ",err)
+		log.Fatal("Error id receving ", err)
 	}
 
 	if err := c.Bind(&data); err != nil {
-		log.Fatal(err)
+		return err
 	}
 
-	return nil
+	if err := database.DB.Save(&data).Error; err != nil {
+		log.Fatal("Error save to database ", err)
+	}
+
+	return c.JSON(200, data)
 }
 
 func (h *Handler) deletePosts(c echo.Context) error {
