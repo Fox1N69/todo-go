@@ -41,7 +41,7 @@ func (h *Handler) updatePosts(c echo.Context) error {
 	var data models.Posts
 	id := c.Param("id")
 
-	if err := database.DB.Where("id = ?", id).First(&data, id).Error; err != nil {
+	if err := database.DB.Where("id = ?", id).First(&data).Error; err != nil {
 		log.Fatal("Error receiving data for ID: ", err)
 		c.String(http.StatusInternalServerError, "Error receiving data for ID")
 		return err
@@ -62,7 +62,7 @@ func (h *Handler) deletePosts(c echo.Context) error {
 	var data models.Posts
 	id := c.Param("id")
 
-	if err := database.DB.Where("id = ?", id).First(&data, id).Error; err != nil {
+	if err := database.DB.Where("id = ?", id).First(&data).Error; err != nil {
 		log.Fatal("Error recceving data for ID ", err)
 		c.String(http.StatusInternalServerError, "error receiving data for ID")
 		return err
