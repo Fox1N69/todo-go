@@ -68,11 +68,9 @@ func (h *Handler) deletePosts(c echo.Context) error {
 		return err
 	}
 
-	if err := c.Bind(&data); err != nil {
+	if err := database.DB.Delete(&data).Error; err != nil {
 		return err
 	}
 
-	log.Fatal("Error delete data to databases",database.DB.Delete(&data).Error)
-
-	return c.JSON(200, data)
+	return c.String(http.StatusOK, "User successfully deleted")
 }
