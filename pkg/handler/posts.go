@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"rest/database"
-	"rest/models"
+	"rest/pkg/models"
 
 	"github.com/labstack/echo/v4"
 	log "github.com/sirupsen/logrus"

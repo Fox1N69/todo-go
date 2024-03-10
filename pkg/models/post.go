@@ -6,3 +6,4 @@ type Posts struct {
 	Description string `json:"description"`
 	PostBody    string `json: "postbody"`
 }
+

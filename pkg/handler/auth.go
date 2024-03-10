@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"rest/database"
-	"rest/models"
+	"rest/pkg/models"
 	"strconv"
 	"time"
 
