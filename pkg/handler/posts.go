@@ -7,70 +7,67 @@ import (
 	"rest/pkg/models"
 
 	"github.com/labstack/echo/v4"
-	log "github.com/sirupsen/logrus"
 )
 
 func (h *Handler) getAllPosts(c echo.Context) error {
 	var posts []models.Posts
-	database.DB.Find(&posts)
+	if err := database.DB.Find(&posts).Error; err != nil {
+		return err
+	}
 
 	data, err := json.Marshal(posts)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
-	jsonString := string(data)
-
-	return c.String(200, jsonString)
+	return c.String(http.StatusOK, string(data))
 }
 
 func (h *Handler) setPost(c echo.Context) error {
+	post := new(models.Posts)
 
-	data := new(models.Posts)
-
-	if err := c.Bind(&data); err != nil {
-		log.Fatal(err)
+	if err := c.Bind(post); err != nil {
+		return err
 	}
 
-	database.DB.Create(&data)
+	if err := database.DB.Create(post).Error; err != nil {
+		return err
+	}
 
-	return c.JSON(201, data)
+	return c.JSON(http.StatusCreated, post)
 }
 
-func (h *Handler) updatePosts(c echo.Context) error {
-	var data models.Posts
+func (h *Handler) updatePost(c echo.Context) error {
 	id := c.Param("id")
 
-	if err := database.DB.Where("id = ?", id).First(&data).Error; err != nil {
+	post := new(models.Posts)
+	if err := database.DB.Where("id = ?", id).First(post).Error; err != nil {
 		return c.String(http.StatusInternalServerError, "Error receiving data for ID")
 	}
 
-	if err := c.Bind(&data); err != nil {
+	if err := c.Bind(post); err != nil {
 		return err
 	}
 
-	if err := database.DB.Save(&data).Error; err != nil {
-		log.Fatal("Error save to database ", err)
+	if err := database.DB.Save(post).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, "Error saving post to database")
 	}
 
-	return c.JSON(200, "Post seccessfully change")
+	return c.JSON(http.StatusOK, "Post successfully changed")
 }
 
-func (h *Handler) deletePosts(c echo.Context) error {
-	var post models.Posts
+func (h *Handler) deletePost(c echo.Context) error {
 	id := c.Param("id")
 
-	if err := database.DB.Where("id = ?", id).First(&post).Error; err != nil {
+	post := new(models.Posts)
+	if err := database.DB.Where("id = ?", id).First(post).Error; err != nil {
 		return c.JSON(http.StatusBadRequest, "post not found")
 	}
 
-	if err := c.Bind(&post); err != nil {
-		return err
+	if err := database.DB.Delete(post, id).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, "error deleting post")
 	}
 
-	if err := database.DB.Delete(&post, id).Error; err != nil {
-		log.Fatal("Error delete to database ", err)
-	}
-
-	return c.String(http.StatusOK, "Post successfully deleted")
+	return c.NoContent(http.StatusOK)
 }
+
