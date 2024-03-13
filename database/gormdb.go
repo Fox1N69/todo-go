@@ -4,45 +4,39 @@ import (
 	"rest/pkg/models"
 	"time"
 
-	"github.com/joho/godotenv"
 	log "github.com/sirupsen/logrus"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 var DB *gorm.DB
-var DSN = "user=postgres password=8008 dbname=sitesb port=5432 sslmode=disable"
+var dsn = "user=postgres password=8008 dbname=sitesb port=5432 sslmode=disable"
 
 func InitGormDB() *gorm.DB {
-	if err := godotenv.Load("../.env"); err != nil {
-		log.Fatal(err)
-	}
-
-	DB, err := gorm.Open(postgres.Open(DSN), &gorm.Config{})
+	var err error
+	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("Database connect...")
-
 	DB.AutoMigrate(&models.Users{})
-	DB.AutoMigrate(&models.Users{})
-
-	DB.Exec("ALTER SEQUENCE posts_id_seq RESTART WITH 1")
-
 	return DB
 }
 
 func GetDB() *gorm.DB {
 	if DB == nil {
-		DB = InitGormDB()
-		var sleep = time.Duration(1)
+		sleep := time.Second
 		for DB == nil {
-			sleep = sleep * 2
-			log.Println("Database is unavaibl. Wait for %d sec.\n")
-			time.Sleep(sleep * time.Second)
 			DB = InitGormDB()
+			time.Sleep(sleep)
+			sleep *= 2
 		}
 	}
 
 	return DB
+}
+
+// create func for update database
+func UpdateDB() *gorm.DB {
+
+	return nil
 }

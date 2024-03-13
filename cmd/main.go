@@ -12,6 +12,8 @@ import (
 
 
 func main() {
+	port := os.Getenv("PORT")
+
 	srv := new(rest.Server)
 	handlers := new(handler.Handler)
 
@@ -19,7 +21,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	log.Infoln("Server start on" + " " + "http://localhost:" + os.Getenv("PORT"))
-	log.Fatal(srv.Run(os.Getenv("PORT"), handlers.InitRouter()))
+	log.Infoln("Server start on", "http://localhost:"+port)
+	log.Fatal(srv.Run(port, handlers.InitRouter()))
 	log.Fatal(srv.Shutdown(context.Background()))
 }
