@@ -6,8 +6,8 @@ import (
 	"rest"
 	"rest/pkg/handler"
 
-	log "github.com/sirupsen/logrus"
 	"github.com/joho/godotenv"
+	log "github.com/sirupsen/logrus"
 )
 
 
@@ -16,6 +16,7 @@ func main() {
 
 	srv := new(rest.Server)
 	handlers := new(handler.Handler)
+
 
 	if err := godotenv.Load("../.env"); err != nil {
 		log.Fatal(err)

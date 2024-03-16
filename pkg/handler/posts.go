@@ -30,7 +30,7 @@ func (h *Handler) setPost(c echo.Context) error {
 		return err
 	}
 
-	if err := h.postRepo.Create(&post);err != nil {
+	if err := h.repo.Post.Create(&post);err != nil {
 		return err
 	}
 

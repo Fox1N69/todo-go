@@ -7,7 +7,7 @@ import (
 )
 
 type Handler struct {
-	postRepo repository.PostRepository
+	repo *repository.MainRepository
 }
 
 func (h *Handler) InitRouter() *echo.Echo {
