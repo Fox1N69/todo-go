@@ -1,10 +1,13 @@
 package handler
 
 import (
+	"rest/pkg/repository"
+
 	"github.com/labstack/echo/v4"
 )
 
 type Handler struct {
+	postRepo repository.PostRepository
 }
 
 func (h *Handler) InitRouter() *echo.Echo {
