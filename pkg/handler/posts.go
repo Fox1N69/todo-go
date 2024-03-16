@@ -24,17 +24,17 @@ func (h *Handler) getAllPosts(c echo.Context) error {
 }
 
 func (h *Handler) setPost(c echo.Context) error {
-	post := new(models.Posts)
+	var post models.Posts
 
-	if err := c.Bind(post); err != nil {
+	if err := c.Bind(&post); err != nil {
 		return err
 	}
 
-	if err := database.DB.Create(post).Error; err != nil {
+	if err := database.DB.Create(&post).Error; err != nil {
 		return err
 	}
 
-	return c.JSON(http.StatusCreated, post)
+	return c.JSON(http.StatusCreated, &post)
 }
 
 func (h *Handler) updatePost(c echo.Context) error {

@@ -21,7 +21,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	log.Infoln("Server start on", "http://localhost:"+port)
-	log.Fatal(srv.Run(port, handlers.InitRouter()))
+	log.Infoln("Server start on", "http://localhost:"+port + "4000")
+	log.Fatal(srv.Run("4000", handlers.InitRouter()))
 	log.Fatal(srv.Shutdown(context.Background()))
 }
