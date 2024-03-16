@@ -80,7 +80,7 @@ func (h *Handler) getAllUsers(c echo.Context) error {
 
 	user, err := json.Marshal(data)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	jsonString := string(user)
