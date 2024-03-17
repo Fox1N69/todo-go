@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"rest/pkg/repository"
+	"rest/pkg/repositorys"
 
 	"github.com/labstack/echo/v4"
 )
@@ -17,6 +17,7 @@ func (h *Handler) InitRouter() *echo.Echo {
 	{
 		admin.GET("/", h.Admin)
 	}
+
 
 	auth := e.Group("/auth")
 	{

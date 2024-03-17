@@ -17,7 +17,6 @@ func main() {
 	srv := new(rest.Server)
 	handlers := new(handler.Handler)
 
-
 	if err := godotenv.Load("../.env"); err != nil {
 		log.Fatal(err)
 	}
