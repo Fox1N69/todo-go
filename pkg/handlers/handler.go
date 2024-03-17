@@ -1,13 +1,17 @@
 package handler
 
 import (
-	"rest/pkg/repositorys"
+	repository "rest/pkg/repositorys"
 
 	"github.com/labstack/echo/v4"
 )
 
 type Handler struct {
 	repo *repository.MainRepository
+}
+
+func (h *Handler) NewHandler(repo *repository.MainRepository) *Handler {
+	return &Handler{repo: repo}
 }
 
 func (h *Handler) InitRouter() *echo.Echo {
@@ -17,7 +21,6 @@ func (h *Handler) InitRouter() *echo.Echo {
 	{
 		admin.GET("/", h.Admin)
 	}
-
 
 	auth := e.Group("/auth")
 	{
@@ -30,7 +33,7 @@ func (h *Handler) InitRouter() *echo.Echo {
 	post := e.Group("/posts")
 	{
 		post.GET("/", h.GetAllPosts)
-		post.POST("/set", h.CreatePost)
+		post.POST("/create", h.CreatePost)
 		post.PUT("/update/:id", h.UpdatePost)
 		post.DELETE("/delete/:id", h.DeletePost)
 
