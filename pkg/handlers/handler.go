@@ -1,7 +1,7 @@
 package handler
 
 import (
-	repository "rest/pkg/repositorys"
+	"rest/pkg/repositorys"
 
 	"github.com/labstack/echo/v4"
 )
@@ -10,7 +10,7 @@ type Handler struct {
 	repo *repository.MainRepository
 }
 
-func (h *Handler) NewHandler(repo *repository.MainRepository) *Handler {
+func  NewHandler(repo *repository.MainRepository) *Handler {
 	return &Handler{repo: repo}
 }
 

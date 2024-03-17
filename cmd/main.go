@@ -15,19 +15,18 @@ import (
 func main() {
 	port := os.Getenv("PORT")
 
-	srv := new(rest.Server)
+	server := &rest.Server{}
 
 	db := database.GetDB()
-	repositorys := repository.NewMainRepository(db)
-
-	handlers := new(handler.Handler)
-	handlers.NewHandler(repositorys)
+	repo := repository.NewMainRepository(db)
+	
+	handlers := handler.NewHandler(repo)
 
 	if err := godotenv.Load(".env"); err != nil {
 		log.Fatal(err)
 	}
 
-	log.Infoln("Server start on", "http://localhost:"+port+"4000")
-	log.Fatal(srv.Run("4000", handlers.InitRouter()))
-	log.Fatal(srv.Shutdown(context.Background()))
+	log.Println("Server start on", "http://localhost:"+port+"4000")
+	log.Fatal(server.Run("4000", handlers.InitRouter()))
+	log.Fatal(server.Shutdown(context.Background()))
 }
