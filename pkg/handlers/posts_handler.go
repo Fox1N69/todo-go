@@ -56,17 +56,19 @@ func (h *Handler) UpdatePost(c echo.Context) error {
 	return c.JSON(http.StatusOK, "Post successfully updated")
 }
 
-
 func (h *Handler) DeletePost(c echo.Context) error {
-	id := c.Param("id")
-
-	post := new(models.Posts)
-	if err := database.DB.Where("id = ?", id).First(post).Error; err != nil {
-		return c.JSON(http.StatusBadRequest, "post not found")
+	postID, err := strconv.ParseUint(c.Param("id"), 10, 64)
+	if err != nil {
+		return err
 	}
 
-	if err := database.DB.Delete(post, id).Error; err != nil {
-		return c.JSON(http.StatusInternalServerError, "error deleting post")
+	post, err := h.repo.Post.GetByID(uint(postID))
+	if err != nil {
+		return err
+	}
+
+	if err := h.repo.Post.DeletePost(post); err != nil {
+		return err
 	}
 
 	return c.NoContent(http.StatusOK)

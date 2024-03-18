@@ -13,10 +13,10 @@ type PostRepository struct {
 }
 
 type PostRepositoryI interface {
-	CreatePost(post models.Posts) error
+	CreatePost(post *models.Posts) error
 	GetPostByID(id uint) (models.Posts, error)
-	UpdatePost(post models.Posts) error
-	DeletePost(post models.Posts) error
+	UpdatePost(post *models.Posts) error
+	DeletePost(post *models.Posts) error
 }
 
 func NewPostRepository(db *gorm.DB) *PostRepository {
@@ -43,6 +43,6 @@ func (pr *PostRepository) UpdatePost(postToUpdate *models.Posts) error {
 	return database.DB.Model(&postToUpdate).Updates(&postToUpdate).Error
 }
 
-func (pr *PostRepository) DeletePost(post models.Posts) error {
+func (pr *PostRepository) DeletePost(post *models.Posts) error {
 	return database.DB.Delete(post).Error
 }
