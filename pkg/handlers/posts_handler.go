@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"rest/database"
 	"rest/pkg/models"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -30,7 +31,7 @@ func (h *Handler) CreatePost(c echo.Context) error {
 		return err
 	}
 
-	if err := h.repo.Post.Create(&post);err != nil {
+	if err := h.repo.Post.Create(&post); err != nil {
 		return err
 	}
 
@@ -38,23 +39,23 @@ func (h *Handler) CreatePost(c echo.Context) error {
 }
 
 func (h *Handler) UpdatePost(c echo.Context) error {
-	id := c.Param("id")
-
-	post := new(models.Posts)
-	if err := database.DB.Where("id = ?", id).First(post).Error; err != nil {
-		return c.String(http.StatusInternalServerError, "Error receiving data for ID")
-	}
-
-	if err := c.Bind(post); err != nil {
+	postID, err := strconv.ParseUint(c.Param("id"), 10, 64)
+	if err != nil {
 		return err
 	}
 
-	if err := database.DB.Save(post).Error; err != nil {
-		return c.JSON(http.StatusInternalServerError, "Error saving post to database")
+	post, err := h.repo.Post.GetByID(uint(postID))
+	if err != nil {
+		return err
 	}
 
-	return c.JSON(http.StatusOK, "Post successfully changed")
+	if err = h.repo.Post.UpdatePost(post); err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, "Post successfully updated")
 }
+
 
 func (h *Handler) DeletePost(c echo.Context) error {
 	id := c.Param("id")
@@ -70,4 +71,3 @@ func (h *Handler) DeletePost(c echo.Context) error {
 
 	return c.NoContent(http.StatusOK)
 }
-

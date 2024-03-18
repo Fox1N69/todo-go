@@ -39,7 +39,7 @@ func (pr *PostRepository) GetByID(id uint) (*models.Posts, error) {
 	return &post, nil
 }
 
-func (pr *PostRepository) UpdatePost(postToUpdate models.Posts) error {
+func (pr *PostRepository) UpdatePost(postToUpdate *models.Posts) error {
 	return database.DB.Model(&postToUpdate).Updates(&postToUpdate).Error
 }
 
