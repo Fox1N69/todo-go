@@ -38,8 +38,8 @@ func (pr *PostRepository) GetByID(id uint) (*models.Posts, error) {
 	return &post, nil
 }
 
-func (pr *PostRepository) UpdatePost(postToUpdate *models.Posts) error {
-	return pr.DB.Model(&postToUpdate).Updates(&postToUpdate).Error
+func (pr *PostRepository) UpdatePost(post *models.Posts) error {
+	return pr.DB.Save(&post).Error
 }
 
 func (pr *PostRepository) DeletePost(post *models.Posts) error {

@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"rest/database"
 	"rest/pkg/models"
@@ -49,11 +50,15 @@ func (h *Handler) UpdatePost(c echo.Context) error {
 		return err
 	}
 
+	if err := c.Bind(&post); err != nil {
+		log.Fatal(err)
+	}
+
 	if err = h.repo.Post.UpdatePost(post); err != nil {
 		return err
 	}
 
-	return c.JSON(http.StatusOK, "Post successfully updated")
+	return c.JSON(http.StatusOK, "Post: successfully updated")
 }
 
 func (h *Handler) DeletePost(c echo.Context) error {
@@ -71,5 +76,5 @@ func (h *Handler) DeletePost(c echo.Context) error {
 		return err
 	}
 
-	return c.NoContent(http.StatusOK)
+	return c.JSON(200, "Post delete")
 }
