@@ -11,6 +11,18 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+func (h *Handler) Test(c echo.Context) error {
+	data := struct {
+		Message string `json:"message"`
+	}{}
+
+	if err := c.Bind(&data); err != nil {
+		return err
+	}
+
+	return c.JSON(200, &data)
+}
+
 func (h *Handler) GetAllPosts(c echo.Context) error {
 	var posts []models.Posts
 	if err := database.DB.Find(&posts).Error; err != nil {

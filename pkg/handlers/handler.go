@@ -38,6 +38,7 @@ func (h *Handler) InitRouter() *echo.Echo {
 		post.DELETE("/delete/:id", h.DeletePost)
 
 	}
+	e.POST("/test", h.Test)
 
 	return e
 }
