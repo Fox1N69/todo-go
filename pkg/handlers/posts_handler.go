@@ -12,18 +12,14 @@ import (
 )
 
 func (h *Handler) Test(c echo.Context) error {
-	data := struct {
-		Message string `json:"message"`
-	}{}
+	var data map[string]interface{}
 
 	if err := c.Bind(&data); err != nil {
 		return err
 	}
 
-	return c.JSON(200, &data)
+	return c.JSON(200, data)
 }
-
-
 
 func (h *Handler) GetAllPosts(c echo.Context) error {
 	var posts []models.Posts
