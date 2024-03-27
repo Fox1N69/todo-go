@@ -25,7 +25,8 @@ func main() {
 	postHandler := handlers.NewPostHandler(postService)
 
 	//ini routing
-	routers.NewPostRouter(postHandler, e)
+	router := routers.NewPostRouter(postHandler)
+	router.RouterSetup(e)
 
 	//start server...
 	logrus.Fatal("Error start server", e.Start(":4000"))
