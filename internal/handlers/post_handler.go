@@ -15,5 +15,9 @@ func NewPostHandler(postService *services.PostServeci) *PostHandler {
 }
 
 func (h *PostHandler) GetAllPost(c echo.Context) error {
-	return nil
+	return c.JSON(200, map[string]interface{}{"message": "hello world"})
+}
+
+func (h *PostHandler) Test(c echo.Context) error {
+	return c.JSON(200, "Hello world test")
 }

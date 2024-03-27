@@ -8,16 +8,20 @@ import (
 
 type PostRouter struct {
 	handler *handlers.PostHandler
-	echo    *echo.Echo
 }
 
-func NewPostRouter(postHander *handlers.PostHandler, e *echo.Echo) *PostRouter {
-	return &PostRouter{handler: postHander, echo: e}
+func NewPostRouter(postHander *handlers.PostHandler) *PostRouter {
+	return &PostRouter{
+		handler: postHander,
+	}
 }
 
-func (r *PostRouter) InitRouters(e *echo.Echo) {
+func (r *PostRouter) RouterSetup(e *echo.Echo) {
 	api := e.Group("/api")
 	{
 		api.GET("/posts", r.handler.GetAllPost)
 	}
+
+	e.GET("/test", r.handler.Test)
+
 }
