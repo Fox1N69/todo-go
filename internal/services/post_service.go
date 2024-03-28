@@ -3,6 +3,7 @@ package services
 import (
 	"blog/internal/repositorys"
 	"blog/pkg/models"
+	"sort"
 )
 
 type PostServeci struct {
@@ -52,4 +53,28 @@ func (s *PostServeci) DeletePost(id uint) error {
 	}
 
 	return s.postRepository.Delete(post)
+}
+
+func ReorderPostIDsAfterDelete(deletedID uint, posts []models.Post) []models.Post {
+	var updatedPosts []models.Post
+
+	for _, post := range posts {
+		if post.ID == deletedID {
+			continue // Пропускаем удаленный пост
+		}
+
+		// Уменьшаем идентификаторы для последующих постов
+		if post.ID > deletedID {
+			post.ID--
+		}
+
+		updatedPosts = append(updatedPosts, post)
+	}
+
+	// Сортируем обновленные посты по возрастанию идентификатора
+	sort.Slice(updatedPosts, func(i, j int) bool {
+		return updatedPosts[i].ID < updatedPosts[j].ID
+	})
+
+	return updatedPosts
 }
