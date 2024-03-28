@@ -22,8 +22,8 @@ func (s *PostServeci) GetAllPosts() ([]models.Post, error) {
 	return posts, nil
 }
 
-func (s *PostServeci) CreatePost(post models.Post) error {
-	return s.postRepository.Create(&post)
+func (s *PostServeci) CreatePost(post *models.Post) error {
+	return s.postRepository.Create(post)
 }
 
 func (s *PostServeci) UpdatePost(id uint, post *models.Post) error {
