@@ -23,7 +23,7 @@ func (s *PostServeci) GetAllPosts() ([]models.Post, error) {
 }
 
 func (s *PostServeci) CreatePost(post models.Post) error {
-	return nil
+	return s.postRepository.Create(&post)
 }
 
 func (s *PostServeci) UpdatePost(id uint, post models.Post) error {
@@ -31,5 +31,10 @@ func (s *PostServeci) UpdatePost(id uint, post models.Post) error {
 }
 
 func (s *PostServeci) DeletePost(id uint) error {
-	return nil
+	post, err := s.postRepository.GetByID(id)
+	if err != nil {
+		return err
+	}
+
+	return s.postRepository.Delete(post)
 }
