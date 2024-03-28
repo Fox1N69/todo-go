@@ -14,7 +14,12 @@ func NewPostServeci(postRepo *repositorys.PostRepository) *PostServeci {
 }
 
 func (s *PostServeci) GetAllPosts() ([]models.Post, error) {
-	return nil, nil
+	posts, err := s.postRepository.GetAll()
+	if err != nil {
+		return nil, err
+	}
+
+	return posts, nil
 }
 
 func (s *PostServeci) CreatePost(post models.Post) error {
