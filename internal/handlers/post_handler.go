@@ -13,15 +13,23 @@ type PostHandlerI interface {
 	DeletePost(c echo.Context) error
 }
 type PostHandler struct {
-	postService *services.PostServeci
+	service *services.PostServeci
 }
 
 func NewPostHandler(postService *services.PostServeci) *PostHandler {
-	return &PostHandler{postService: postService}
+	return &PostHandler{service: postService}
 }
 
 func (h *PostHandler) GetAllPosts(c echo.Context) error {
-	return nil
+	post, err := h.service.GetAllPosts()
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(200, map[string]interface{}{
+		"message": "Post create success",
+		"post":    post,
+	})
 }
 
 func (h *PostHandler) CreatePost(c echo.Context) error {
