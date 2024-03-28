@@ -17,5 +17,11 @@ func NewPostRouter(postHander *handlers.PostHandler) *PostRouter {
 }
 
 func (r *PostRouter) RouterSetup(e *echo.Echo) {
-	e.POST("/test", r.handler.Test)
+	api := e.Group("/api/post")
+	{
+		api.GET("/", r.handler.GetAllPosts)
+		api.POST("/", r.handler.CreatePost)
+		api.PUT(":id", r.handler.UpdatePost)
+		api.DELETE(":id", r.handler.DeletePost)
+	}
 }

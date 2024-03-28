@@ -2,11 +2,16 @@ package handlers
 
 import (
 	"blog/internal/services"
-	"blog/pkg/models"
 
 	"github.com/labstack/echo/v4"
 )
 
+type PostHandlerI interface {
+	GetAllPosts(c echo.Context) error
+	CreatePost(c echo.Context) error
+	UpdatePost(c echo.Context) error
+	DeletePost(c echo.Context) error
+}
 type PostHandler struct {
 	postService *services.PostServeci
 }
@@ -15,15 +20,18 @@ func NewPostHandler(postService *services.PostServeci) *PostHandler {
 	return &PostHandler{postService: postService}
 }
 
-func (h *PostHandler) Test(c echo.Context) error {
-	var data models.Test
+func (h *PostHandler) GetAllPosts(c echo.Context) error {
+	return nil
+}
 
-	if err := c.Bind(&data); err != nil {
-		return err
-	}
+func (h *PostHandler) CreatePost(c echo.Context) error {
+	return nil
+}
 
-	return c.JSON(200, map[string]interface{}{
-		"message": "success",
-		"data":    &data,
-	})
+func (h *PostHandler) UpdatePost(c echo.Context) error {
+	return nil
+}
+
+func (h *PostHandler) DeletePost(c echo.Context) error {
+	return nil
 }
