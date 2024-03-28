@@ -27,12 +27,22 @@ func (s *PostServeci) CreatePost(post *models.Post) error {
 }
 
 func (s *PostServeci) UpdatePost(id uint, post *models.Post) error {
-	postUpdate, err := s.postRepository.GetByID(id)
+	existingPost, err := s.postRepository.GetByID(id)
 	if err != nil {
 		return err
 	}
 
-	return s.postRepository.Update(postUpdate)
+	//update message fields based on recaving data
+	existingPost.Title = post.Title
+	existingPost.Description = post.Description
+	existingPost.PostBody = post.PostBody
+
+	err = s.postRepository.Update(existingPost)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (s *PostServeci) DeletePost(id uint) error {

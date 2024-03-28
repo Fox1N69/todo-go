@@ -73,7 +73,7 @@ func (h *PostHandler) UpdatePost(c echo.Context) error {
 
 	//binding request data to the post model
 	var post models.Post
-	if err := c.Bind(post); err != nil {
+	if err := c.Bind(&post); err != nil {
 		return c.JSON(400, "Invalid request body")
 	}
 
