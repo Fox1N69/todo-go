@@ -86,5 +86,16 @@ func (h *PostHandler) UpdatePost(c echo.Context) error {
 }
 
 func (h *PostHandler) DeletePost(c echo.Context) error {
-	return nil
+	idParam := c.Param("id")
+
+	id, err := stringToUint(idParam)
+	if err != nil {
+		return c.JSON(400, "Invalid ID")
+	}
+
+	if err := h.service.DeletePost(id); err != nil {
+		c.JSON(400, "Failde to deleted post")
+	}
+
+	return c.JSON(200, "Post deleted successfully")
 }
