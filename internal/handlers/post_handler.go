@@ -3,7 +3,6 @@ package handlers
 import (
 	"blog/internal/services"
 	"blog/pkg/models"
-	"errors"
 	"net/http"
 	"strconv"
 
@@ -27,7 +26,7 @@ func NewPostHandler(postService *services.PostServeci) *PostHandler {
 func stringToUint(str string) (uint, error) {
 	num, err := strconv.ParseUint(str, 10, 64)
 	if err != nil {
-		return 0, errors.New("Filed to contvert string to uint")
+		return 0, err
 	}
 
 	return uint(num), nil
