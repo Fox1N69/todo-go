@@ -1,6 +1,8 @@
 package database
 
 import (
+	"blog/pkg/models"
+
 	"github.com/sirupsen/logrus"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -14,6 +16,8 @@ func InitPostDB() *gorm.DB {
 	if err != nil {
 		logrus.Fatal("Error connect to database: ", err)
 	}
+
+	DB.AutoMigrate(&models.Post{})
 
 	return DB
 }
