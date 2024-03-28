@@ -8,11 +8,14 @@ import (
 	"blog/pkg/routers"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"github.com/sirupsen/logrus"
 )
 
 func main() {
 	e := echo.New()
+	e.Use(middleware.CORS())
+
 	db := database.InitPostDB()
 
 	//init repository

@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"blog/internal/services"
+	"blog/pkg/models"
 
 	"github.com/labstack/echo/v4"
 )
@@ -14,10 +15,15 @@ func NewPostHandler(postService *services.PostServeci) *PostHandler {
 	return &PostHandler{postService: postService}
 }
 
-func (h *PostHandler) GetAllPost(c echo.Context) error {
-	return c.JSON(200, map[string]interface{}{"message": "hello world"})
-}
-
 func (h *PostHandler) Test(c echo.Context) error {
-	return c.JSON(200, "Hello world test")
+	var data models.Test
+
+	if err := c.Bind(&data); err != nil {
+		return err
+	}
+
+	return c.JSON(200, map[string]interface{}{
+		"message": "success",
+		"data":    &data,
+	})
 }
