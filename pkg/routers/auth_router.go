@@ -1,25 +1,25 @@
 package routers
 
 import (
-	"blog/internal/handlers"
+	"blog/internal/controller"
 
 	"github.com/labstack/echo/v4"
 )
 
 type AuthRouter struct {
-	handler *handlers.AuthHandler
+	controller *controller.AuthController
 }
 
-func NewAuthRouter(handlerAuth *handlers.AuthHandler) *AuthRouter {
-	return &AuthRouter{handler: handlerAuth}
+func NewAuthRouter(controller *controller.AuthController) *AuthRouter {
+	return &AuthRouter{controller: controller}
 }
 
 func (r *AuthRouter) RouterSetup(e *echo.Echo) {
 	auth := e.Group("/auth")
 	{
-		auth.POST("/login", r.handler.Login)
-		auth.POST("/singup", r.handler.Singup)
-		auth.POST("/logout", r.handler.Logout)
-		auth.POST("/refresh", r.handler.Refresh)
+		auth.POST("/login", r.controller.Login)
+		auth.POST("/singup", r.controller.SingUp)
+		auth.POST("/logout", r.controller.Logout)
+		auth.POST("/refresh", r.controller.Refresh)
 	}
 }

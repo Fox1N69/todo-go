@@ -1,7 +1,7 @@
 package main
 
 import (
-	"blog/internal/handlers"
+	"blog/internal/controller"
 	"blog/internal/repositorys"
 	"blog/internal/services"
 	"blog/pkg/database"
@@ -21,11 +21,13 @@ func main() {
 	//init service auth
 	service := services.NewAuthService(repo)
 
+	//init service
+	controller := controller.NewAuthController(service)
+
 	//init handler auth
-	handler := handlers.NewAuthHandler(service)
 
 	//init router auth
-	router := routers.NewAuthRouter(handler)
+	router := routers.NewAuthRouter(controller)
 	router.RouterSetup(app)
 
 	log.Fatal(app.Start(":8000"))
