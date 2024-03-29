@@ -4,6 +4,7 @@ import (
 	"blog/internal/handlers"
 	"blog/internal/repositorys"
 	"blog/internal/services"
+	"blog/pkg/database"
 	"blog/pkg/routers"
 	"log"
 
@@ -12,9 +13,10 @@ import (
 
 func main() {
 	app := echo.New()
+	db := database.InitAuthDB()
 
 	//ini repotitory auth
-	repo := repositorys.NewAuthRepository()
+	repo := repositorys.NewAuthRepository(db)
 
 	//init service auth
 	service := services.NewAuthService(repo)
