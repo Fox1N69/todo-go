@@ -1,6 +1,10 @@
 package controller
 
-import "golang.org/x/crypto/bcrypt"
+import (
+	"blog/pkg/models"
+
+	"golang.org/x/crypto/bcrypt"
+)
 
 type AuthController struct{}
 
@@ -14,6 +18,10 @@ func hashPassword(password []byte) ([]byte, error) {
 func checkPasswordHash(password, hash []byte) bool {
 	err := bcrypt.CompareHashAndPassword(hash, password)
 	return err == nil
+}
+
+func generateJWTToken(user models.User) error {
+	return nil
 }
 
 func (c *AuthController) Login() error {
