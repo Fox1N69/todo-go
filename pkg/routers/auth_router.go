@@ -14,6 +14,12 @@ func NewAuthRouter(handlerAuth *handlers.AuthHandler) *AuthRouter {
 	return &AuthRouter{handler: handlerAuth}
 }
 
-func (ar *AuthRouter) RouterSetup(e *echo.Echo) {
-	
-} 
+func (r *AuthRouter) RouterSetup(e *echo.Echo) {
+	auth := e.Group("/auth")
+	{
+		auth.POST("/login", r.handler.Login)
+		auth.POST("/singup", r.handler.Singup)
+		auth.POST("/logout", r.handler.Logout)
+		auth.POST("/refresh", r.handler.Refresh)
+	}
+}

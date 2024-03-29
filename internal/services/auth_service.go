@@ -9,3 +9,4 @@ type AuthService struct {
 func NewAuthService(authRepo *repositorys.AuthRepository) *AuthService {
 	return &AuthService{repository: authRepo}
 }
+
