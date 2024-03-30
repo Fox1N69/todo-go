@@ -24,8 +24,6 @@ func main() {
 	//init service
 	controller := controller.NewAuthController(service)
 
-	//init handler auth
-
 	//init router auth
 	router := routers.NewAuthRouter(controller)
 	router.RouterSetup(app)
