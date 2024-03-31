@@ -62,18 +62,19 @@ func checkPasswordHash(password, hash []byte) bool {
 	return err == nil
 }
 
-func (c *AuthController) Login(ctx echo.Context) error {
+func (ac *AuthController) Login(c echo.Context) error {
+
 	return nil
 }
 
-func (c *AuthController) SingUp(ctx echo.Context) error {
+func (ac *AuthController) SingUp(c echo.Context) error {
 	return nil
 }
 
-func (c *AuthController) Logout(ctx echo.Context) error {
+func (ac *AuthController) Logout(c echo.Context) error {
 	return nil
 }
 
-func (c *AuthController) Refresh(ctx echo.Context) error {
+func (ac *AuthController) Refresh(c echo.Context) error {
 	return nil
 }
