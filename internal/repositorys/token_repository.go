@@ -11,16 +11,17 @@ type TokenRepository struct {
 }
 
 type TokenRepositoryI interface {
-	CreateToken(user *models.User, tokenString string) error
+	GenerateJWTToken(user *models.User) (string, error)
+	VerifyToken(tokenString string) (*jwt.Token, error)
 }
 
 func NewTokenRepository() *TokenRepository {
 	return &TokenRepository{}
 }
 
-var secretKey = "secret"
+var secretKey = []byte("secret")
 
-func (r *TokenRepository) CreateToken(user *models.User) (string, error) {
+func (r *TokenRepository) GenerateJWTToken(user *models.User) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"user_id":  user.ID,
 		"username": user.Username,
@@ -33,4 +34,17 @@ func (r *TokenRepository) CreateToken(user *models.User) (string, error) {
 	}
 
 	return tokenString, nil
+}
+
+func (r *TokenRepository) VerifyToken(tokenString string) (*jwt.Token, error) {
+	token, err := jwt.Parse(tokenString, func(t *jwt.Token) (interface{}, error) {
+		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, jwt.ErrSignatureInvalid
+		}
+		return secretKey, nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	return token, nil
 }
